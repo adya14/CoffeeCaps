@@ -18,9 +18,11 @@
   /* padding: 5px; */
 }
 
-.qHeader__logo > img {
-  height: 30px !important;
-  object-fit: contain;
+.qHeader__logo > img{
+  height: 50px;
+  width: 350px;
+  color: #4F200D;
+  align-items: left;
 }
 
 .qHeader__icons {
@@ -38,14 +40,14 @@
 }
 
 .qHeader__icon > .MuiSvgIcon-root {
-  color: gray;
+  color: #4F200D;
   font-size: xx-large;
   margin-left: 20px;
   margin-right: 20px;
 }
 
 .qHeader__icon:hover > .MuiSvgIcon-root {
-  color: #000;
+  color: #533710;
 }
 
 /* .qHeader__icons {
@@ -103,19 +105,18 @@
   cursor: pointer;
 }
 .qHeader__Rem > .MuiSvgIcon-root:hover {
-  color: #000;
-}
-
+  color: #4F200D;
+}  
 .qHeader__Rem > .MuiButton-root {
   color: white;
-  background: #222;
+  background: #4F200D;
   text-transform: inherit;
   border-radius: 5px;
   margin-left: 25px;
 }
 
 .qHeader__Rem > .MuiButton-root:hover {
-  color: #222;
+  color: #4F200D;
   background: rgb(214, 214, 214);
 }
 
@@ -150,7 +151,7 @@
   color: gray;
 }
 
-.modal__info > .modal__scope {
+.modal_info > .modal_scope {
   display: flex;
   align-items: center;
   color: rgb(98, 98, 98);
@@ -168,14 +169,14 @@
   flex: 1;
 }
 
-.modal__Field > .modal__fieldLink {
+.modal_Field > .modal_fieldLink {
   color: gray;
   display: flex;
   margin-top: 10px;
   align-items: center;
 }
 
-.modal__Field > .modal__fieldLink > input {
+.modal_Field > .modal_fieldLink > input {
   flex: 1;
   border: none;
   outline: none;
@@ -208,7 +209,7 @@
   border: none;
   outline: none;
   margin-top: 10px;
-  background-color: #222;
+  background-color: #4F200D;
   color: white;
   font-weight: 700;
   padding: 10px;
@@ -219,7 +220,7 @@
 
 .modal__buttons > .add:hover {
   background-color: #eee;
-  color: #222;
+  color: #4F200D;
 }
 
 @media only screen and (max-width: 600px) {

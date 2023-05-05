@@ -17,14 +17,19 @@ function Login() {
     <div className="login-container">
       <div className="login-content">
         <img
-          src="https://media1.giphy.com/media/687qS11pXwjCM/giphy.gif"
+          src="https://i.pinimg.com/originals/94/36/20/943620f51b519405560a865cf3f97bfa.gif"
           alt="logo"
         />
+        <img 
+          src = "logo.png"
+          alt = "name"
+        />
         <button onClick={handleSubmit} className="btn-login">
-          Login to continue
+          Login with Google
         </button>
+        
       </div>
-    </div>
+    </div>    
   );
 }
 

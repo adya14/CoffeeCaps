@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
-import FeaturedPlayListOutlinedIcon from "@material-ui/icons/FeaturedPlayListOutlined";
 import {
-  AssignmentTurnedInOutlined,
   // Close,
   NotificationsOutlined,
   PeopleAltOutlined,
@@ -70,20 +68,15 @@ function QuoraHeader() {
     <div className="qHeader">
       <div className="qHeader-content">
         <div className="qHeader__logo">
+          {/* <h1>Caffeine Connect</h1> */}
           <img
-            src="https://video-public.canva.com/VAD8lt3jPyI/v/ec7205f25c.gif"
+            src="logo.png"           
             alt="logo"
           />
         </div>
         <div className="qHeader__icons">
           <div className="qHeader__icon">
             <HomeIcon />
-          </div>
-          <div className="qHeader__icon">
-            <FeaturedPlayListOutlinedIcon />
-          </div>
-          <div className="qHeader__icon">
-            <AssignmentTurnedInOutlined />
           </div>
           <div className="qHeader__icon">
             <PeopleAltOutlined />
@@ -169,7 +162,7 @@ function QuoraHeader() {
                 Cancel
               </button>
               <button onClick={handleSubmit} type="submit" className="add">
-                Add Question
+                Add Recipie
               </button>
             </div>
           </Modal>
