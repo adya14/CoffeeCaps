@@ -3,6 +3,9 @@
     justify-content: flex-end;
     align-items: center;
     height: 100vh;
+    position: absolute;
+    left: 700px;
+    bottom: -230px
   }
   .signup-form {
     display: flex;
