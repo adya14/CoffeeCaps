@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import Login from "./components/auth/Login";
 import Quora from "./components/Quora";
-import { login, selectUser } from "./feature/userSlice";
+import Signup from "./components/auth/Signup";
+import SignIn from "./components/auth/Signin";
+import { login, logout, selectUser } from "./feature/userSlice";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -23,13 +25,25 @@ function App() {
           })
         );
         console.log("AuthUser", authUser);
+      } else {
+        dispatch(logout());
       }
     });
   }, [dispatch]);
+
   return (
-    <div className="App">
-      {/* <h1>This is for testing</h1> */}
-      {user ? <Quora /> : <Login />}
+    <div className="app">
+      {!user ? (
+        <>
+          <Login />
+          <SignIn/>
+          <Signup />
+        </>
+      ) : (
+        <>
+          <Quora />
+        </>
+      )}
     </div>
   );
 }
