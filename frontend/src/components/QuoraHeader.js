@@ -1,7 +1,6 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import {
-  // Close,
   NotificationsOutlined,
   PeopleAltOutlined,
   Search,
@@ -64,13 +63,13 @@ function QuoraHeader() {
         });
     }
   };
+
   return (
     <div className="qHeader">
       <div className="qHeader-content">
         <div className="qHeader__logo">
-          {/* <h1>Caffeine Connect</h1> */}
           <img
-            src="logo.png"           
+            src="logo.png"
             alt="logo"
           />
         </div>
@@ -90,11 +89,16 @@ function QuoraHeader() {
           <input type="text" placeholder="Search questions" />
         </div>
         <div className="qHeader__Rem">
-          <span onClick={handleLogout}>
-            <Avatar src={user?.photo} />
-          </span>
+          {user ? (
+            <div className="qHeader__user">
+              <span className="username">{user.displayName}</span>
+              <Button onClick={handleLogout}>Logout</Button>
+              <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
+            </div>
+          ) : (
+            <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
+          )}
 
-          <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
           <Modal
             open={isModalOpen}
             closeIcon={Close}
@@ -143,7 +147,7 @@ function QuoraHeader() {
                     padding: "10px",
                     outline: "2px solid #000",
                   }}
-                  placeholder="Optional: inclue a link that gives context"
+                  placeholder="Optional: include a link that gives context"
                 />
                 {inputUrl !== "" && (
                   <img
@@ -158,11 +162,11 @@ function QuoraHeader() {
               </div>
             </div>
             <div className="modal__buttons">
-              <button className="cancle" onClick={() => setIsModalOpen(false)}>
+              <button className="cancel" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button>
               <button onClick={handleSubmit} type="submit" className="add">
-                Add Recipie
+                Add Question
               </button>
             </div>
           </Modal>

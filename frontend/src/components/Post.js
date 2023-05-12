@@ -27,6 +27,7 @@ function LastSeen({ date }) {
     </div>
   );
 }
+
 function Post({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -37,7 +38,6 @@ function Post({ post }) {
   const handleQuill = (value) => {
     setAnswer(value);
   };
-  // console.log(answer);
 
   const handleSubmit = async () => {
     if (post?._id && answer !== "") {
@@ -55,7 +55,7 @@ function Post({ post }) {
         .post("/api/answers", body, config)
         .then((res) => {
           console.log(res.data);
-          alert("Answer added succesfully");
+          alert("Answer added successfully");
           setIsModalOpen(false);
           window.location.href = "/";
         })
@@ -64,6 +64,13 @@ function Post({ post }) {
         });
     }
   };
+
+  const handleShare = () => {
+    const postLink = window.location.href + `post/${post?._id}`;
+    navigator.clipboard.writeText(postLink);
+    alert("Post link copied to clipboard.");
+  };
+
   return (
     <div className="post">
       <div className="post__info">
@@ -76,7 +83,7 @@ function Post({ post }) {
       </div>
       <div className="post__body">
         <div className="post__question">
-          <p>{post?.questionName}</p>
+          {post?.questionName}
           <button
             onClick={() => {
               setIsModalOpen(true);
@@ -84,7 +91,7 @@ function Post({ post }) {
             }}
             className="post__btnAnswer"
           >
-            Answer
+            Comment
           </button>
           <Modal
             open={isModalOpen}
@@ -101,12 +108,12 @@ function Post({ post }) {
           >
             <div className="modal__question">
               <h1>{post?.questionName}</h1>
-              <p>
+              <div className="modal__askedby">
                 asked by <span className="name">{post?.user?.userName}</span> on{" "}
                 <span className="name">
                   {new Date(post?.createdAt).toLocaleString()}
                 </span>
-              </p>
+              </div>
             </div>
             <div className="modal__answer">
               <ReactQuill
@@ -120,7 +127,7 @@ function Post({ post }) {
                 Cancel
               </button>
               <button onClick={handleSubmit} type="submit" className="add">
-                Add Answer
+                Add comment
               </button>
             </div>
           </Modal>
@@ -135,7 +142,7 @@ function Post({ post }) {
         <RepeatOneOutlined />
         <ChatBubbleOutlined />
         <div className="post__footerLeft">
-          <ShareOutlined />
+          <ShareOutlined onClick={handleShare} />
           <MoreHorizOutlined />
         </div>
       </div>
@@ -188,7 +195,7 @@ function Post({ post }) {
                   }}
                   className="post-info"
                 >
-                  <p>{_a?.user?.userName}</p>
+                  {_a?.user?.userName}
                   <span>
                     <LastSeen date={_a?.createdAt} />
                   </span>

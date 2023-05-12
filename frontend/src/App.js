@@ -9,6 +9,7 @@ import { login, logout, selectUser } from "./feature/userSlice";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
+
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
