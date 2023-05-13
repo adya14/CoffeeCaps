@@ -8,7 +8,25 @@
     <label for="password">Password</label>
     <input type="password" name="password" required />
     <div class="password error"></div>
-    <button>Log in</button>
+    <button style="align-items: center">Log in</button>
+    <div class="form-selection">
+        <p style="text-align: center;margin-top: 20px;" > Don't have an account? <a href="/signup">Sign up</a></p>
+        <p style="text-align: center;"> Or </p>
+        <div class="oath-btn">
+            <div class="button" style="margin-top:20px;">
+                <div class="card-content">
+                    <div class="section" style="text-align: center;">
+                        <a href="/auth/google" style="color: rgb(218, 55, 55);" class="btn_google">
+                            <img src="/google.png" alt="" width="20" height="20">
+                            <i class="fab fa-google left"></i> Log In With Google</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </form>
 
 <script>
