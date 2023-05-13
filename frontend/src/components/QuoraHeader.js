@@ -93,16 +93,11 @@ function QuoraHeader() {
           <input type="text" placeholder="Search questions" />
         </div>
         <div className="qHeader__Rem">
-          {user ? (
-            <div className="qHeader__user">
-              <span className="username">{user.displayName}</span>
-              <Button onClick={handleLogout}>Logout</Button>
-              <Button onClick={() => setIsModalOpen(true)}>Give your thoughts</Button>
-            </div>
-          ) : (
-            <Button onClick={() => setIsModalOpen(true)}>Give your thoughts</Button>
-          )}
+          <span onClick={handleLogout}>
+            <Avatar src={user?.photo} />
+          </span>
 
+          <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
           <Modal
             open={isModalOpen}
             closeIcon={Close}
@@ -166,11 +161,11 @@ function QuoraHeader() {
               </div>
             </div>
             <div className="modal__buttons">
-              {/* <button className="cancel" onClick={() => setIsModalOpen(false)}>
+              <button className="cancle" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button> */}
               <button onClick={handleSubmit} type="submit" className="add">
-                Give you thoughts
+                Add Recipie
               </button>
             </div>
           </Modal>
