@@ -37,19 +37,6 @@ function SidebarOptions() {
         <p>Espresso</p>
       </div>
 
-      <div className="sidebarOption">
-        <img
-          src="mocha.png"
-          alt=""
-        />
-        <p>Mocha</p>
-      </div>
-
-    
-      <div className="sidebarOption">
-        <Add />
-        <p className="text">Discover Spaces</p>
-      </div>
     </div>
   );
 }

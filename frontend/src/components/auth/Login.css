@@ -1,3 +1,13 @@
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: fit-content;
+  height: 100vh;
+  background: url("https://wallpaperaccess.com/full/2389930.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .login-container {
   display: flex;
   align-items: left;
@@ -7,6 +17,7 @@
   box-sizing: border-box;
   margin-top:100px; 
   margin-left: 200px;
+  background-color:#ffffff71
 }
 
 .login-content {

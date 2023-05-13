@@ -1,7 +1,6 @@
- import React, { useState } from "react";
+import React, { useState } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import {
-  // Close,
   NotificationsOutlined,
   PeopleAltOutlined,
   Search,
@@ -17,6 +16,7 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { logout, selectUser } from "../feature/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import AssignmentTurnedInOutlinedIcon from "@material-ui/icons/AssignmentTurnedInOutlined";
 
 function QuoraHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,13 +64,13 @@ function QuoraHeader() {
         });
     }
   };
+
   return (
     <div className="qHeader">
       <div className="qHeader-content">
         <div className="qHeader__logo">
-          {/* <h1>Caffeine Connect</h1> */}
           <img
-            src="logo.png"           
+            src="logo.png"
             alt="logo"
           />
         </div>
@@ -78,7 +78,10 @@ function QuoraHeader() {
           <div className="qHeader__icon">
             <HomeIcon />
           </div>
-          <div className="qHeader__icon">
+          <div onClick = {() => window.location.href = '/myQuestions'} className="qHeader__icon">
+            <AssignmentTurnedInOutlinedIcon />
+          </div>
+          <div onClick = {() => window.location.href = '/allUsers'} className="qHeader__icon">
             <PeopleAltOutlined />
           </div>
           <div className="qHeader__icon">
@@ -90,11 +93,16 @@ function QuoraHeader() {
           <input type="text" placeholder="Search questions" />
         </div>
         <div className="qHeader__Rem">
-          <span onClick={handleLogout}>
-            <Avatar src={user?.photo} />
-          </span>
+          {user ? (
+            <div className="qHeader__user">
+              <span className="username">{user.displayName}</span>
+              <Button onClick={handleLogout}>Logout</Button>
+              <Button onClick={() => setIsModalOpen(true)}>Give your thoughts</Button>
+            </div>
+          ) : (
+            <Button onClick={() => setIsModalOpen(true)}>Give your thoughts</Button>
+          )}
 
-          <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
           <Modal
             open={isModalOpen}
             closeIcon={Close}
@@ -109,8 +117,8 @@ function QuoraHeader() {
             }}
           >
             <div className="modal__title">
-              <h5>Add Question</h5>
-              <h5>Share Link</h5>
+              <h5>Give your thoughts</h5>
+              {/* <h5>Share Link</h5> */}
             </div>
             <div className="modal__info">
               <Avatar src={user?.photo} className="avatar" />
@@ -143,7 +151,7 @@ function QuoraHeader() {
                     padding: "10px",
                     outline: "2px solid #000",
                   }}
-                  placeholder="Optional: inclue a link that gives context"
+                  placeholder="Optional: include a link that gives context"
                 />
                 {inputUrl !== "" && (
                   <img
@@ -158,11 +166,11 @@ function QuoraHeader() {
               </div>
             </div>
             <div className="modal__buttons">
-              <button className="cancle" onClick={() => setIsModalOpen(false)}>
+              {/* <button className="cancel" onClick={() => setIsModalOpen(false)}>
                 Cancel
-              </button>
+              </button> */}
               <button onClick={handleSubmit} type="submit" className="add">
-                Add Recipie
+                Give you thoughts
               </button>
             </div>
           </Modal>

@@ -14,10 +14,12 @@ function Login() {
       });
   };
   return (
+    <div className="login">
+    <div className="login">
     <div className="login-container">
       <div className="login-content">
         <img
-          src="https://i.pinimg.com/originals/94/36/20/943620f51b519405560a865cf3f97bfa.gif"
+          src="coffee.gif"
           alt="logo"
         />
         <img 
@@ -29,7 +31,9 @@ function Login() {
         </button>
         
       </div>
-    </div>    
+    </div>   
+    </div> 
+    </div>
   );
 }
 

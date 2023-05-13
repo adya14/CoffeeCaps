@@ -5,7 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const PORT = 80;
 const db = require("./db");
-const router = require("./routes");
+const router = require("./routers");
 
 //database connection
 

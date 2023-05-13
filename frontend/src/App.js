@@ -8,6 +8,8 @@ import SignIn from "./components/auth/Signin";
 import { login, logout, selectUser } from "./feature/userSlice";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import AllUsers from './components/AllUsers';
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   const user = useSelector(selectUser);
@@ -37,11 +39,18 @@ function App() {
         <>
           <Login />
           <SignIn/>
-          <Signup />
+          <BrowserRouter>
+            <Signup />
+          </BrowserRouter>
+          
         </>
       ) : (
         <>
           <Quora />
+          {user.isAdmin && (
+                  <AllUsers />
+              )}
+          
         </>
       )}
     </div>
