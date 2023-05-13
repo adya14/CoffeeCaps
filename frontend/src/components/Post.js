@@ -2,7 +2,9 @@ import { Avatar } from "@material-ui/core";
 import {
   ArrowDownwardOutlined,
   ArrowUpwardOutlined,
+  ChatBubbleOutlined,
   MoreHorizOutlined,
+  // RepeatOneOutlined,
   ShareOutlined,
 } from "@material-ui/icons";
 import React, { useState } from "react";
@@ -26,34 +28,43 @@ function LastSeen({ date }) {
   );
 }
 
-function Post({ post }) {
+function Post({ post , userEmail}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [questionName, setQuestionName] = useState(post?.questionName || "");
-  const [questionUrl, setQuestionUrl] = useState(post?.questionUrl || "");
+  const [answer, setAnswer] = useState("");
   const [likes, setLikes] = useState(post.upvotes || 0);
   const [dislikes, setDislikes] = useState(post.downvotes || 0);
-  const [answer, setAnswer] = useState("");
-
   const Close = <CloseIcon />;
 
   const user = useSelector(selectUser);
+  const username = post?.user?.email ? post?.user?.email.split("@")[0] : '';
+  let name = "";
+
+  if (user && user.email) {
+    const parts = user.email.split("@");
+    name = parts[0];
+  }
 
   const handleQuill = (value) => {
     setAnswer(value);
   };
-  // console.log(answer);
 
   const handleSubmit = async () => {
-    if (post?._id && questionName !== "") {
+    if (post?._id && answer !== "") {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
       const body = {
-        questionName: questionName,
-        questionUrl: questionUrl,
+        answer: answer,
+        questionId: post?._id,
+        user: user,
       };
       await axios
-        .put(`/api/posts/${post._id}`, body)
+        .post("/api/answers", body, config)
         .then((res) => {
           console.log(res.data);
-          alert("Answer added succesfully");
+          alert("Comment added successfully");
           setIsModalOpen(false);
           window.location.href = "/";
         })
@@ -62,11 +73,58 @@ function Post({ post }) {
         });
     }
   };
+
+  const handleShare = () => {
+    const postLink = window.location.href + `post/${post?._id}`;
+    navigator.clipboard.writeText(postLink);
+    alert("Post link copied to clipboard.");
+  };
+
+  const handleLike = () => {
+    // Only allow user to vote if they are logged in
+    if (!user) {
+      alert("Please log in to vote.");
+      return;
+    }
+
+    // If the user has already liked the post, remove their like
+    if (likes === 1) {
+      setLikes(0);
+    }
+    // If the user has not liked the post, add their like and remove their dislike if they have previously disliked the post
+    else {
+      setLikes(1);
+      if (dislikes === 1) {
+        setDislikes(0);
+      }
+    }
+  };
+
+  const handleDislike = () => {
+    // Only allow user to vote if they are logged in
+    if (!user) {
+      alert("Please log in to vote.");
+      return;
+    }
+
+    // If the user has already disliked the post, remove their dislike
+    if (dislikes === 1) {
+      setDislikes(0);
+    }
+    // If the user has not disliked the post, add their dislike and remove their like if they have previously liked the post
+    else {
+      setDislikes(1);
+      if (likes === 1) {
+        setLikes(0);
+      }
+    }
+  };
+
   return (
     <div className="post">
       <div className="post__info">
-        <Avatar src={post?.user?.photo} />
-        <h4>{post?.user?.userName}</h4>
+        <h4>{username} </h4>
+        {/* <h4>{post?.user?.userName}</h4> */}
 
         <small>
           <LastSeen date={post?.createdAt} />
@@ -74,7 +132,7 @@ function Post({ post }) {
       </div>
       <div className="post__body">
         <div className="post__question">
-          <p>{post?.questionName}</p>
+          {post?.questionName}
           <button
             onClick={() => {
               setIsModalOpen(true);
@@ -82,7 +140,7 @@ function Post({ post }) {
             }}
             className="post__btnAnswer"
           >
-            Answer
+            Comment
           </button>
           <Modal
             open={isModalOpen}
@@ -99,18 +157,18 @@ function Post({ post }) {
           >
             <div className="modal__question">
               <h1>{post?.questionName}</h1>
-              <p>
-                asked by <span className="name">{post?.user?.userName}</span> on{" "}
+              <div className="modal__askedby">
+                asked by <span className="name">{post?.user?.userName}{name}</span> on{" "}
                 <span className="name">
                   {new Date(post?.createdAt).toLocaleString()}
                 </span>
-              </p>
+              </div>
             </div>
             <div className="modal__answer">
               <ReactQuill
                 value={answer}
                 onChange={handleQuill}
-                placeholder="Enter your answer"
+                placeholder="Enter your comment"
               />
             </div>
             <div className="modal__button">
@@ -118,7 +176,7 @@ function Post({ post }) {
                 Cancel
               </button>
               <button onClick={handleSubmit} type="submit" className="add">
-                Add Answer
+                Add comment
               </button>
             </div>
           </Modal>
@@ -127,74 +185,28 @@ function Post({ post }) {
       </div>
       <div className="post__footer">
         <div className="post__footerAction">
-          <ArrowUpwardOutlined />
-          <ArrowDownwardOutlined />
+          <ArrowUpwardOutlined onClick={handleLike} className={likes === 1 ? "active" : ""} />
+          <span className="post__voteCount">{likes}</span>
+          <span className="post__voteLabel">Likes</span>
+          <ArrowDownwardOutlined onClick={handleDislike} className={dislikes === 1 ? "active" : ""} />
+          <span className="post__voteCount">{dislikes}</span>
+          <span className="post__voteLabel">Dislikes</span>
         </div>
-        <RepeatOneOutlined />
-        <ChatBubbleOutlined />
-        <div className="post__footerLeft">
-          <ShareOutlined />
+        {/* <RepeatOneOutlined className="post__repeat" /> */}
+        <ChatBubbleOutlined className="post__commentIcon" />
+        <span className="post__commentIcon">{post?.allAnswers?.length || 0}</span>
+        <div className="post__footerRight">
+          <ShareOutlined onClick={handleShare} />
           <MoreHorizOutlined />
         </div>
       </div>
-      <p
-        style={{
-          color: "rgba(0,0,0,0.5)",
-          fontSize: "12px",
-          fontWeight: "bold",
-          margin: "10px 0",
-        }}
-      >
-        {post?.allAnswers.length} Answer(s)
-      </p>
-
-      <div
-        style={{
-          margin: "5px 0px 0px 0px ",
-          padding: "5px 0px 0px 20px",
-          borderTop: "1px solid lightgray",
-        }}
-        className="post__answer"
-      >
-        {post?.allAnswers?.map((_a) => (
-          <>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                padding: "10px 5px",
-                borderTop: "1px solid lightgray",
-              }}
-              className="post-answer-container"
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                  fontSize: "12px",
-                  fontWeight: 600,
-                  color: "#888",
-                }}
-                className="post-answered"
-              >
-                <Avatar src={_a?.user?.photo} />
-                <div
-                  style={{
-                    margin: "0px 10px",
-                  }}
-                  className="post-info"
-                >
-                  <p>{_a?.user?.userName}</p>
-                  <span>
-                    <LastSeen date={_a?.createdAt} />
-                  </span>
-                </div>
-              </div>
-              <div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
-            </div>
-          </>
+      <div className="post__comments">
+        {Array.isArray(post?.allAnswers) && post.allAnswers.map((ans) => (
+          <p className="post__comment">
+            <Avatar src={ans?.user?.photo} />
+            <span className="post__commentUser">{ans?.user?.userName}</span>
+            <span className="post__commentText">{ReactHtmlParser(ans?.answer)}</span>
+          </p>
         ))}
       </div>
     </div>

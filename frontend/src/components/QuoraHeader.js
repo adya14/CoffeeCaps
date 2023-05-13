@@ -4,10 +4,10 @@ import {
   NotificationsOutlined,
   PeopleAltOutlined,
   Search,
-  ExpandMore,
+  // ExpandMore,
 } from "@material-ui/icons";
 import CloseIcon from "@material-ui/icons/Close";
-import { Avatar, Button, Input } from "@material-ui/core";
+import {Button, Input } from "@material-ui/core";
 import "./css/QuoraHeader.css";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
@@ -25,6 +25,13 @@ function QuoraHeader() {
   const Close = <CloseIcon />;
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+
+  let name = "";
+
+  if (user && user.email) {
+    const parts = user.email.split("@");
+    name = parts[0];
+  }
 
   const handleSubmit = async () => {
     if (question !== "") {
@@ -47,7 +54,7 @@ function QuoraHeader() {
         })
         .catch((e) => {
           console.log(e);
-          alert("Error in adding question");
+          alert("Error in adding content");
         });
     }
   };
@@ -90,14 +97,19 @@ function QuoraHeader() {
         </div>
         <div className="qHeader__input">
           <Search />
-          <input type="text" placeholder="Search questions" />
+          <input type="text" placeholder="Search Spaces" />
         </div>
         <div className="qHeader__Rem">
-          <span onClick={handleLogout}>
-            <Avatar src={user?.photo} />
-          </span>
+          {user ? (
+            <div className="qHeader__user">
+              <span className="username">{user.displayName}</span>
+              <Button onClick={handleLogout}>Logout</Button>
+              <Button onClick={() => setIsModalOpen(true)}>Post your thoughts</Button>
+            </div>
+          ) : (
+            <Button onClick={() => setIsModalOpen(true)}>Post your thoughts</Button>
+          )}
 
-          <Button onClick={() => setIsModalOpen(true)}>Add Question</Button>
           <Modal
             open={isModalOpen}
             closeIcon={Close}
@@ -112,15 +124,16 @@ function QuoraHeader() {
             }}
           >
             <div className="modal__title">
-              <h5>Give your thoughts</h5>
+              <h5>Post your thoughts</h5>
               {/* <h5>Share Link</h5> */}
             </div>
             <div className="modal__info">
-              <Avatar src={user?.photo} className="avatar" />
+              {/* <Avatar src={user?.photo} className="avatar" /> */}
+              <h5>Welcome, {name}! </h5>
               <div className="modal__scope">
-                <PeopleAltOutlined />
+                {/* <PeopleAltOutlined />
                 <p>Public</p>
-                <ExpandMore />
+                <ExpandMore /> */}
               </div>
             </div>
             <div className="modal__Field">
@@ -128,7 +141,7 @@ function QuoraHeader() {
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 type=" text"
-                placeholder="Start your question with 'What', 'How', 'Why', etc. "
+                placeholder="What are your views ..... "
               />
               <div
                 style={{
@@ -161,11 +174,11 @@ function QuoraHeader() {
               </div>
             </div>
             <div className="modal__buttons">
-              <button className="cancle" onClick={() => setIsModalOpen(false)}>
+              {/* <button className="cancel" onClick={() => setIsModalOpen(false)}>
                 Cancel
               </button> */}
               <button onClick={handleSubmit} type="submit" className="add">
-                Add Recipie
+                Post your thoughts
               </button>
             </div>
           </Modal>

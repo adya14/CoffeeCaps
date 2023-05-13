@@ -1,4 +1,4 @@
-import { Add } from "@material-ui/icons";
+// import { Add } from "@material-ui/icons";
 import React from "react";
 import "./css/SidebarOptions.css";
 
