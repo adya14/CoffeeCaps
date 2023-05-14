@@ -6,7 +6,7 @@ function sessionTimeout(req, res, next) {
       console.log("Last activity:", req.session.lastActivity);
   
       const now = new Date().getTime();
-      const sessionTimeout = req.session.lastActivity + (  30 * 1000); // 30 seconds in milliseconds
+      const sessionTimeout = req.session.lastActivity + (  24*60*60 * 1000); // 30 seconds in milliseconds
   
       console.log("Current time:", now);
       console.log("Session timeout:", sessionTimeout);
