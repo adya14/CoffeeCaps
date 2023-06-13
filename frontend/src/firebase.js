@@ -1,12 +1,17 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+// import { getFirestore } from "firebase/firestore";
+import {getFirestore, collection, getDocs, doc, updateDoc, deleteDoc} from "firebase/firestore";
 //import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyBwS3EU9-lNpTCBrPSP0psKvVW987H-yrs",
   authDomain: "community-portal-mern.firebaseapp.com",
@@ -21,7 +26,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const DB = getFirestore();
+export { auth, provider, DB};
 
-export { auth, provider };
+export const getUsers = async () => {
+  const usersCollection = collection(DB, "users");
+  const usersSnapshot = await getDocs(usersCollection);
+  const users = usersSnapshot.docs.map((doc) => ({ userUid: doc.id, ...doc.data() }));
+  return users;
+};
+
+export const updateUser = async (userUid, newData) => {
+  const userDoc = doc(DB, "users", userUid);
+  await updateDoc(userDoc, newData);
+};
+
+export const deleteUser = async (userUid) => {
+  const userDoc = doc(DB, "users", userUid);
+  await deleteDoc(userDoc);
+};
 
 //const analytics = getAnalytics(app);

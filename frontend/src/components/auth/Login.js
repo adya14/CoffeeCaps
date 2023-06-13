@@ -22,12 +22,9 @@ function Login() {
           src="coffee.gif"
           alt="logo"
         />
-        <img 
-          src = "logo.png"
-          alt = "name"
-        />
+        
         <button onClick={handleSubmit} className="btn-login">
-          Login with Google
+          Login with Google        
         </button>
         
       </div>

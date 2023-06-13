@@ -66,14 +66,15 @@ function SignIn(props) {
           <div className="form-group button-container">
             <button type="button" onClick={handleBackButtonClick}>
               Back
-            </button>
+            </button>            
             <button type="submit">Log in</button>
           </div>
         </form>
       ) : (
         <div className="login-button-container">
-          <button onClick={handleLoginButtonClick}>Login</button>
-        </div>
+          <button onClick={handleLoginButtonClick} >Log-in
+          </button>
+          </div>
       )}
     </div>
   );

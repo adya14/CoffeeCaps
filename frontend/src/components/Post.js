@@ -142,6 +142,7 @@ function Post({ post , userEmail}) {
           >
             Comment
           </button>
+          
           <Modal
             open={isModalOpen}
             closeIcon={Close}
@@ -158,7 +159,7 @@ function Post({ post , userEmail}) {
             <div className="modal__question">
               <h1>{post?.questionName}</h1>
               <div className="modal__askedby">
-                asked by <span className="name">{post?.user?.userName}{name}</span> on{" "}
+                posted by <span className="name">{post?.user?.userName}{name}</span> on{" "}
                 <span className="name">
                   {new Date(post?.createdAt).toLocaleString()}
                 </span>
@@ -190,10 +191,10 @@ function Post({ post , userEmail}) {
           <span className="post__voteLabel">Likes</span>
           <ArrowDownwardOutlined onClick={handleDislike} className={dislikes === 1 ? "active" : ""} />
           <span className="post__voteCount">{dislikes}</span>
-          <span className="post__voteLabel">Dislikes</span>
+          <span className="post__voteLabel"> Dislikes</span>
         </div>
         {/* <RepeatOneOutlined className="post__repeat" /> */}
-        <ChatBubbleOutlined className="post__commentIcon" />
+        <ChatBubbleOutlined className="post__commentIcon" />   
         <span className="post__commentIcon">{post?.allAnswers?.length || 0}</span>
         <div className="post__footerRight">
           <ShareOutlined onClick={handleShare} />

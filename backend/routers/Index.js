@@ -5,7 +5,11 @@ const questionRouter = require("./Question");
 const answerRouter = require("./Answer");
 
 router.get("/", (req, res) => {
-  res.send("This api is reserved for quora clone");
+  res.redirect("/Quora");
+});
+
+router.get("/Quora", (req, res) => {
+  res.send("This is the home page for your Caffeine Connect");
 });
 
 router.use("/questions", questionRouter);

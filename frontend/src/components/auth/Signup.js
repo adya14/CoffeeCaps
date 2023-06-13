@@ -3,6 +3,8 @@ import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import "./Signup.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {  login } from "../../feature/userSlice";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -12,6 +14,7 @@ function Signup() {
   const [error, setError] = useState("");
   const [showBackButton, setShowBackButton] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSignup = (event) => {
     event.preventDefault();
@@ -34,16 +37,28 @@ function Signup() {
           return;
         }
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        console.log("User created successfully");
-        navigate("./Dashboard.js");
-      })
-      .catch((error) => {
-        setError(error.message);
-        console.log(error);
-      });
-  };
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          console.log("User created successfully");
+          const { user } = userCredential;
+          const userData = {
+            userName: user.displayName,
+            photo: user.photoURL,
+            email: user.email,
+            uid: user.uid,
+          };
+          dispatch(login(userData));
+          if (userType === "admin") {
+            // navigate("/Dashboard");
+          } else {
+            navigate("/Quora");
+          }
+        })
+        .catch((error) => {
+          setError(error.message);
+          console.log(error);
+        });
+    };
 
   const handleUserTypeSelection = (selectedUserType) => {
     setUserType(selectedUserType);
@@ -62,16 +77,51 @@ function Signup() {
   return (
     <div className="signup-container">
       {userType === "" && (
-        <div>
-          <button onClick={handleSignupButtonClick}>Signup</button>
-        </div>
+       <div>
+       <button onClick={handleSignupButtonClick} style={{
+         padding: '12.5px 30px',
+         border: '0',
+         borderRadius: '100px',
+         backgroundColor: '#4F200D',
+         color: '#ffffff',
+         fontWeight: 'bold',
+         transition: 'all 0.5s',
+         WebkitTransition: 'all 0.5s',
+       }}>
+         Signup
+       </button>
+     </div>
       )}
       {userType === "select" && (
         <div>
           <form className="signup-form">
             <h2>Select user type:</h2>
-            <button onClick={() => handleUserTypeSelection("user")}>User</button>
-            <button onClick={() => handleUserTypeSelection("admin")}>Admin</button>
+            <button onClick={() => handleUserTypeSelection("user")} style={{
+  padding: '12.5px 30px',
+  border: '0',
+  borderRadius: '100px',
+  backgroundColor: '#4F200D',
+  color: '#ffffff',
+  fontWeight: 'bold',
+  transition: 'all 0.5s',
+  WebkitTransition: 'all 0.5s',
+  marginRight: '10px',
+}}>
+  User
+</button>
+<button onClick={() => handleUserTypeSelection("admin")} style={{
+  padding: '12.5px 30px',
+  border: '0',
+  borderRadius: '100px',
+  backgroundColor: '#4F200D',
+  color: '#ffffff',
+  fontWeight: 'bold',
+  transition: 'all 0.5s',
+  WebkitTransition: 'all 0.5s',
+  marginTop: "10px"
+}}>
+  Admin
+</button>
           </form>
         </div>
       )}

@@ -4,15 +4,15 @@
   padding: 10px;
   border: 1px solid lightgray;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   min-width: 50px;
   /* margin-left: 20px; */
 }
 
-.quoraBox:hover {
+/* .quoraBox:hover {
   border: 1px solid rgb(175, 175, 175);
-}
+} */
 
 .quoraBox__info {
   display: flex;

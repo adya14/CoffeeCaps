@@ -190,7 +190,8 @@
   align-items: center;
 }
 
-.modal__buttons > .cancle {
+
+/* .modal__buttons > .cancle {
   margin-top: 10px;
   border: none;
   outline: none;
@@ -203,7 +204,7 @@
 
 .modal__buttons > .cancle:hover {
   color: red;
-}
+} */
 
 .modal__buttons > .add {
   border: none;
@@ -216,6 +217,7 @@
   border-radius: 33px;
   cursor: pointer;
   width: 50%;
+  margin-bottom: -80px;
 }
 
 .modal__buttons > .add:hover {
